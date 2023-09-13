@@ -14,13 +14,39 @@ function SlowComponent() {
   );
 }
 
-export default function Test() {
+// Trick with children to avoid render
+
+function Counter({ children }) {
   const [count, setCount] = useState(0);
   return (
     <div>
       <h1>Slow counter?!?</h1>
       <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
-      <SlowComponent />
+      {children}
     </div>
   );
 }
+
+export default function Test() {
+  return (
+    <div>
+      <h1>Slow counter?!?</h1>
+      <Counter>
+        <SlowComponent />
+      </Counter>
+    </div>
+  );
+}
+
+// This code has been refactored
+
+// export default function Test() {
+//   //   const [count, setCount] = useState(0);
+//   //   return (
+//   //     <div>
+//   //       <h1>Slow counter?!?</h1>
+//   //       <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
+//   //       <SlowComponent />
+//   //     </div>
+//   //   );
+// }
