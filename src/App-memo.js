@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 function createRandomPost() {
@@ -41,11 +41,14 @@ function App() {
     [isFakeDark]
   );
 
-  // --- It is will break memoization. Add this variable s a prop to Archive component and
-  const archiveOptions = {
-    show: false,
-    title: "Post archive in addition to the main post",
-  };
+  // --- It breaks memoization. Add this variable as a prop to Archive component
+  // --- useMemo can fix the aforementioned problem.
+  const archiveOptions = useMemo(() => {
+    return {
+      show: false,
+      title: `Post archive in addition to ${posts.length} main post`,
+    };
+  }, [posts.length]);
   // ---
 
   return (
